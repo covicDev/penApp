@@ -22,13 +22,17 @@ class _MainTk:
         self.root.config(bg=background)
         # usunięcie górnego paska okna
         self.root.overrideredirect(True)
+        #self.root.eval('tk::PlaceWindow . center')
+        #self.root.geometry()
+        self.root.geometry('+1+'+str(self.hs))
+        
         # wysunięcie aplikacji na samą górę
         self.root.lift()
         self.root.wm_attributes("-topmost",True)
         # dodanie podpisu na górze okna
         self.label = Label(
             text="Wprowadź podpis:",
-            font=("Calibri bold",9),
+            font=("Calibri bold",10),
             background = background,
             foreground = foreground)
         self.label.pack()
@@ -40,18 +44,61 @@ class _MainTk:
             bg= white
         )
         self.canvas.pack()
-        # dodanie przycisku zapisz
+
+        # dodanie przycisku Zapisz
         self.canvas.bind("<B1-Motion>")
-        self.button = Button(text="Zapisz")
-        self.button.pack()
+        self.buttonSave = Button(
+            text="Potwierdź",
+            font=("Calibri bold",24),
+            background = background,
+            foreground= foreground)
+        self.buttonSave.pack()
+
+        self.space = Label(
+            text="---",
+            font=("Calibri bold",13),
+            background = background,
+            foreground = foreground)
+        self.space.pack()
+                
+        # dodanie przycisku Anuluj
+        self.canvas.bind("<B1-Motion>")
+        self.buttonCancel = Button(
+            text="Anuluj",
+            font=("Calibri bold",11),
+            background = background,
+            foreground= foreground,
+            command=self.root.quit)
+        self.buttonCancel.pack()
 
     def _runTk(self):
         self.root.mainloop()
 
+
+    
     def _configTk(self):
         pass
+
+    def _getWindow(self):
+        return self.root
+
+# funkcja centrująca okno 
+# from: https://stackoverflow.com/questions/3352918/how-to-center-a-window-on-the-screen-in-tkinter
+def _centerWindow(win):
+    win.update_idletasks()
+    width = win.winfo_width()
+    frm_width = win.winfo_rootx() - win.winfo_x()
+    win_width = width + 2 * frm_width
+    height = win.winfo_height()
+    titlebar_height = win.winfo_rooty() - win.winfo_y()
+    win_height = height + titlebar_height + frm_width
+    x = win.winfo_screenwidth() // 2 - win_width // 2
+    y = win.winfo_screenheight() // 2 - win_height // 2
+    win.geometry('{}x{}+{}+{}'.format(width, height, x, y))
+    win.deiconify()
 
 # pętla główna aplikacji
 if __name__ == "__main__":
     window = _MainTk()
+    _centerWindow(window._getWindow())
     window._runTk()

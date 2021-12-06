@@ -1,11 +1,19 @@
 from tkinter import *
 
+#from PIL.ImageDraw import Draw
+import PIL
+from PIL import ImageDraw
+
 #globals
-width = 600
-height = 200
+width = 800
+height = 300
 background = "#1B1E26"
 foreground = "#FFE222"
 white = "#FFFFFF"
+penColor = "#000000" # <todo> have some problems with that
+penSize = 5
+
+
 
 class _MainTk:
     def __init__(self):
@@ -25,7 +33,6 @@ class _MainTk:
         #self.root.eval('tk::PlaceWindow . center')
         #self.root.geometry()
         self.root.geometry('+1+'+str(self.hs))
-        
         # wysunięcie aplikacji na samą górę
         self.root.lift()
         self.root.wm_attributes("-topmost",True)
@@ -45,8 +52,17 @@ class _MainTk:
         )
         self.canvas.pack()
 
+        '''
+        # organizes widgets in blocks before placing them in the parent widget
+        expand − When set to true, widget expands to fill any space not otherwise used in widget's parent.
+        fill − Determines whether widget fills any extra space allocated to it by the packer, or keeps its own minimal dimensions: NONE (default), X (fill only horizontally), Y (fill only vertically), or BOTH (fill both horizontally and vertically).
+        '''
+        self.canvas.pack(expand=YES, fill=BOTH)
+
+        # do Buttonów (Canvasa) przypiszę funkcję reagującą na zdarzenie <Button-1> czyli kliknięcie lewym przyciskiem myszy, następnie podaje funkcje
+        self.canvas.bind("<B1-Motion>",paint)
+
         # dodanie przycisku Zapisz
-        self.canvas.bind("<B1-Motion>")
         self.buttonSave = Button(
             text="Potwierdź",
             font=("Calibri bold",24),
@@ -78,10 +94,21 @@ class _MainTk:
     # metoda do implementacji dla dodatkowych parametrów okna
     def _configTk(self,**arguments):
         pass
+    
+    # pobranie canvasa okna
+    def _getCanvas(self):
+        return self.canvas
 
     # pobranie widuku okna
     def _getWindow(self):
         return self.root
+
+def paint(event):
+    x1 = (event.x - 1)
+    x2 = (event.x + 1)
+    y1 = (event.y - 1)
+    y2 = (event.y + 1)
+    globalCanvas.create_oval(x1,y1,x2,y2, fill=penColor, width=penSize)
 
 # funkcja centrująca okno 
 # from: https://stackoverflow.com/questions/3352918/how-to-center-a-window-on-the-screen-in-tkinter
@@ -102,4 +129,5 @@ def _centerWindow(win):
 if __name__ == "__main__":
     window = _MainTk()
     _centerWindow(window._getWindow())
+    globalCanvas = window._getCanvas()
     window._runTk()

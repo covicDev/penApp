@@ -71,14 +71,15 @@ class _MainTk:
             command=self.root.quit)
         self.buttonCancel.pack()
 
+    # metoda odpowiadająca za pętlę uruchomienia okna
     def _runTk(self):
         self.root.mainloop()
 
-
-    
-    def _configTk(self):
+    # metoda do implementacji dla dodatkowych parametrów okna
+    def _configTk(self,**arguments):
         pass
 
+    # pobranie widuku okna
     def _getWindow(self):
         return self.root
 

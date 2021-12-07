@@ -2,6 +2,7 @@
 
 from http.server import HTTPServer, BaseHTTPRequestHandler
 import os
+import sys 
 # ustalenie portu komunikacji
 PORT = 9000
 
@@ -11,6 +12,8 @@ class _myRequestHandler(BaseHTTPRequestHandler):
         # sprawdzenie ścieżki adresu
         if self.path.endswith('/zlecenie'):
             self._stronaZlecenie()
+        elif self.path.endswith('/zamknijserwer'):
+            self._stronaZamknijSerwer()
         else:
             self._stronaStartowa()
     
@@ -28,6 +31,14 @@ class _myRequestHandler(BaseHTTPRequestHandler):
         self.send_header('content-type', 'text/html')
         self.end_headers()
         self.wfile.write('Aplikacja do generowania sygnatur.'.encode())
+
+    def _stronaZamknijSerwer(self):
+        self.send_response(200)
+        self.send_header('content-type', 'text/html')
+        self.end_headers()
+        self.wfile.write('Serwer zgaszony.'.encode())
+        quit()
+        sys.exit()
 
 # pętla główna aplikacji
 if __name__ == "__main__":

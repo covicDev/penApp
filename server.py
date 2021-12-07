@@ -8,14 +8,26 @@ PORT = 9000
 class _myRequestHandler(BaseHTTPRequestHandler):
     # metoda dziedziczona i przeciążona z klasy BaseHTTPRequestHandler (ładowana w momencie request'a get)
     def do_GET(self):
-        # prosta odpowiedź 200 na każde zapytanie www
+        # sprawdzenie ścieżki adresu
+        if self.path.endswith('/zlecenie'):
+            self._stronaZlecenie()
+        else:
+            self._stronaStartowa()
+    
+    # wyświetlenie strony zlecenia
+    def _stronaZlecenie(self):
         self.send_response(200)
-        # rodzaj treści odpowiedzi (nagłówek)
         self.send_header('content-type', 'text/html')
         self.end_headers()
-        # pokazuje ściękę www np. localhost:9000/test -> pokaże: test
         self.wfile.write(self.path[1:].encode())
-    
+
+    # wyświetlenie komunikatu strony startowej
+    def _stronaStartowa(self):
+        self.send_response(200)
+        self.send_header('content-type', 'text/html')
+        self.end_headers()
+        self.wfile.write('Aplikacja do generowania sygnatur.'.encode())
+
 # pętla główna aplikacji
 if __name__ == "__main__":
     # deklaracja servera na podstawie własnej klasy

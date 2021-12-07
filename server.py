@@ -24,3 +24,18 @@ if __name__ == "__main__":
     server = HTTPServer(('',PORT),_myRequestHandler)
     # tryb pracy serwera
     server.serve_forever()
+
+# obługa dostępna przez przeglądarkę www
+# obługa dostępna również przez telnet lub putty:
+'''
+--- przykładowa komunikacja (telnet) ---
+telnet o localhost 900
+<space>GET / HTTP/1.0<enter>
+<enter>
+(odpowiedź)
+HTTP/1.0 200 Ok
+content-type: text/html
+
+Hello World!
+/
+'''

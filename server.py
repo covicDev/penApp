@@ -22,7 +22,7 @@ class _myRequestHandler(BaseHTTPRequestHandler):
         self.send_response(200)
         self.send_header('content-type', 'text/html')
         self.end_headers()
-        os.system('notepad')
+        os.system('widget.exe')
         self.wfile.write(self.path[1:].encode())
 
     # wyświetlenie komunikatu strony startowej

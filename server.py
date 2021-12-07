@@ -1,7 +1,7 @@
 # Implementacja serwera www:
 
 from http.server import HTTPServer, BaseHTTPRequestHandler
-
+import os
 # ustalenie portu komunikacji
 PORT = 9000
 
@@ -19,6 +19,7 @@ class _myRequestHandler(BaseHTTPRequestHandler):
         self.send_response(200)
         self.send_header('content-type', 'text/html')
         self.end_headers()
+        os.system('notepad')
         self.wfile.write(self.path[1:].encode())
 
     # wyświetlenie komunikatu strony startowej

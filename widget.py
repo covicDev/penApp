@@ -2,6 +2,7 @@ from tkinter import *
 from PIL import ImageDraw
 
 import PIL
+import sys
 
 #globals
 width = 800
@@ -114,6 +115,7 @@ def paint(event):
 # funkcja zapisująca obraz
 def save():
     globalImage.save(fileName)
+    sys.exit()
 
 # funkcja centrująca okno 
 # from: https://stackoverflow.com/questions/3352918/how-to-center-a-window-on-the-screen-in-tkinter

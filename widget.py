@@ -1,8 +1,7 @@
 from tkinter import *
-
-#from PIL.ImageDraw import Draw
-import PIL
 from PIL import ImageDraw
+
+import PIL
 
 #globals
 width = 800
@@ -11,9 +10,8 @@ background = "#1B1E26"
 foreground = "#FFE222"
 white = "#FFFFFF"
 penColor = "#000000" # <todo> have some problems with that
-penSize = 5
-
-
+penSize = 8
+fileName = "image.png"
 
 class _MainTk:
     def __init__(self):
@@ -67,7 +65,8 @@ class _MainTk:
             text="Potwierdź",
             font=("Calibri bold",24),
             background = background,
-            foreground= foreground)
+            foreground= foreground,
+            command=save)
         self.buttonSave.pack()
 
         self.space = Label(
@@ -103,12 +102,18 @@ class _MainTk:
     def _getWindow(self):
         return self.root
 
+# funkcja reagująca na kliknięci lewym przyciskiem myszki w obszarze canvas | event: "<B1-Motion>"
 def paint(event):
     x1 = (event.x - 1)
     x2 = (event.x + 1)
     y1 = (event.y - 1)
     y2 = (event.y + 1)
-    globalCanvas.create_oval(x1,y1,x2,y2, fill=penColor, width=penSize)
+    globalCanvas.create_oval(x1,y1,x2,y2, fill=penColor, width=penSize-3)
+    globalDraw.line([x1,y1,x2,y2], fill=penColor, width=penSize)
+
+# funkcja zapisująca obraz
+def save():
+    globalImage.save(fileName)
 
 # funkcja centrująca okno 
 # from: https://stackoverflow.com/questions/3352918/how-to-center-a-window-on-the-screen-in-tkinter
@@ -130,4 +135,8 @@ if __name__ == "__main__":
     window = _MainTk()
     _centerWindow(window._getWindow())
     globalCanvas = window._getCanvas()
+    # inicjalizacja przestrzeni obrazu podpisu
+    globalImage = PIL.Image.new("RGB", (width, height), white)
+    # inicjalizacja zapisu pikseli na obrazie
+    globalDraw = ImageDraw.Draw(globalImage)
     window._runTk()

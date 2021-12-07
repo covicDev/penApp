@@ -13,14 +13,14 @@ class _myRequestHandler(BaseHTTPRequestHandler):
         # rodzaj treści odpowiedzi (nagłówek)
         self.send_header('content-type', 'text/html')
         self.end_headers()
-        # treść odpowiedzi (html)
-        output = 'Hello World!'
-        # wysłanie odpowiedzi
-        self.wfile.write(output.encode())
+        # pokazuje ściękę www np. localhost:9000/test -> pokaże: test
+        self.wfile.write(self.path[1:].encode())
     
 # pętla główna aplikacji
 if __name__ == "__main__":
     # deklaracja servera na podstawie własnej klasy
+    # '' - localhost
+    # PORT - 9000
     server = HTTPServer(('',PORT),_myRequestHandler)
     # tryb pracy serwera
     server.serve_forever()
